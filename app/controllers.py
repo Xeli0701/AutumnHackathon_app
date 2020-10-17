@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials 
 from starlette.templating import Jinja2Templates
 from starlette.requests import Request
+from starlette.websockets import WebSocket
 from starlette.status import HTTP_401_UNAUTHORIZED 
 import db
 from models import User
@@ -9,10 +10,12 @@ import hashlib
 from auth import auth
 import datetime
 
-#パスワードなどチェック用の正規表現
-import re  #
-pattern = re.compile(r'\w{4,20}')  # 4～20の英数字
+import re
+pattern = re.compile(r'\w{4,20}') 
 pattern_mail = re.compile(r'^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$')  # Email
+
+from GenerativeSystem import *
+
 
 app = FastAPI(
     title = 'Autumn Hackathon ChatApp',
@@ -22,8 +25,8 @@ app = FastAPI(
 
 security = HTTPBasic()
 
-#Template Settings(Jinja2)
-#テンプレ→Temple→Jinjaらしい。
+
+#Template Settings(Jinja2)  テンプレ→Temple→Jinjaらしい。 だいぶ違うような……
 templates = Jinja2Templates(directory='templates')
 jinja_env = templates.env
 
@@ -94,18 +97,44 @@ async def register(request: Request):
                                           {'request': request,
                                            'username': username})
 
-def get(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
-    # auth
+async def bot_reply(sendMessage,request:Request, credentials: HTTPBasicCredentials = Depends(security)):
+    bot = GenerativeSystem()
     username = auth(credentials)
+    #messages.append("test")
+    bot_rep = bot.reply(sendMessage)
+    #data.messageText
+    print("Bot reply to" + username: bot_rep)
+    return bot_rep
 
-    # userdata
-    user = db.session.query(User).filter(User.username == username).first()
-    db.session.close()
 
-    # JSON nageru test
-    jsondata = {
-        'username': user.username,
-        'content': 'test'
-    }
+# @app.websocket("/ws")
+# async def websocket_endpoint(ws: WebSocket):
+#     #user = db.session.query(User).filter(User.username == username).first()
+#     #db.session.close()
+#     #client = user['username']
 
-    return jsondata
+#     print(a)
+#     await ws.accept()
+#     try:
+#         while True:
+#             data = await ws.receive_text()
+#             print(data)
+#     except:
+#         await ws.close()
+
+
+# def get(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
+#     # auth
+#     username = auth(credentials)
+
+#     # userdata
+#     user = db.session.query(User).filter(User.username == username).first()
+#     db.session.close()
+
+#     # JSON nageru test
+#     jsondata = {
+#         'username': user.username,
+#         'content': 'test'
+#     }
+
+#     return jsondata

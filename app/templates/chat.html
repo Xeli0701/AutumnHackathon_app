@@ -1,8 +1,44 @@
 {% extends "layout.html" %}
 {% block content %}
 <br>
-<h2>Chat Page</h2>
-<hr>
-<p>Hello, {{ user['username'] }}.</p>
+<div class="row">
+    <div class="col-md-10">
+        <h1>Chat with Bot</h1>
+    </div>
+    <div class="col-md-2">
+        <a href="/" class="btn btn-primary">Index</a>
+    </div>
+</div>
+<h3>Hello, {{ user['username'] }}. Let's Start chat!</h3>
 
+<form action="" onsubmit="sendMessage(event)">
+    <div class="row">
+        <div class="col-md-10"><input type="text" class="form-control" id="messageText" placeholder="今何してる？" autocomplete="off"/></div>
+        <div class="col-md-2"><button type="submit" class="btn btn-primary">Send</button></div>
+    </div>
+</form>
+<p>messages</p>
+<ul id='messages'>
+    <p class="text-danger">{% for e in messages %}{{ e }}<br>{% endfor %}</p>
+</ul>
+
+
+<!-- <script>
+    var ws = new WebSocket("ws://localhost:8000/ws");
+    console.log(ws)
+    ws.onmessage = function(event) {
+        var messages = document.getElementById('messages')
+        var message = document.createElement('li')
+        var content = document.createTextNode(event.data)
+        message.appendChild(content)
+        messages.appendChild(message)
+    };
+    function sendMessage(event) {
+        console.log('send it!')
+        var input = document.getElementById("messageText")
+        ws.send(input.value)
+        input.value = ''
+        event.preventDefault()
+    }
+</script>  -->
 {% endblock %}
