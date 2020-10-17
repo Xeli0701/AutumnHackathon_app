@@ -3,7 +3,7 @@
 <br>
 <div class="row">
     <div class="col-md-10">
-        <h1>User Registration</h1>
+        <h1>Chat with Bot</h1>
     </div>
     <div class="col-md-2">
         <a href="/" class="btn btn-primary">Index</a>
@@ -14,12 +14,16 @@
 <form action="" onsubmit="sendMessage(event)">
     <div class="row">
         <div class="col-md-10"><input type="text" class="form-control" id="messageText" placeholder="今何してる？" autocomplete="off"/></div>
-        <div class="col-md-2"><button class="btn">Send</button></div>
+        <div class="col-md-2"><button type="submit" class="btn btn-primary">Send</button></div>
     </div>
 </form>
+<p>messages</p>
 <ul id='messages'>
+    <p class="text-danger">{% for e in messages %}{{ e }}<br>{% endfor %}</p>
 </ul>
-<script>
+
+
+<!-- <script>
     var ws = new WebSocket("ws://localhost:8000/ws");
     console.log(ws)
     ws.onmessage = function(event) {
@@ -36,5 +40,5 @@
         input.value = ''
         event.preventDefault()
     }
-</script>
+</script>  -->
 {% endblock %}

@@ -14,6 +14,9 @@ import re
 pattern = re.compile(r'\w{4,20}') 
 pattern_mail = re.compile(r'^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$')  # Email
 
+from GenerativeSystem import *
+
+
 app = FastAPI(
     title = 'Autumn Hackathon ChatApp',
     descripstion = 'Chat app with FastAPI and starlette',
@@ -94,27 +97,30 @@ async def register(request: Request):
                                           {'request': request,
                                            'username': username})
 
-@app.websocket("/ws")
-async def websocket_endpoint(ws: WebSocket):
-    #user = db.session.query(User).filter(User.username == username).first()
-    #db.session.close()
-    #client = user['username']
+async def bot_reply(sendMessage,request:Request, credentials: HTTPBasicCredentials = Depends(security)):
+    bot = GenerativeSystem()
+    username = auth(credentials)
+    #messages.append("test")
+    bot_rep = bot.reply(sendMessage)
+    #data.messageText
+    print("Bot reply to" + username: bot_rep)
+    return bot_rep
 
-    print(a)
-    await ws.accept()
-    try:
-        while True:
-            data = await ws.receive_text()
-            print(data)
-    except:
-        await ws.close()
 
 # @app.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     while True:
-#         data = await websocket.receive_text()
-#         await websocket.send_text(f"Message text was: {data}")
+# async def websocket_endpoint(ws: WebSocket):
+#     #user = db.session.query(User).filter(User.username == username).first()
+#     #db.session.close()
+#     #client = user['username']
+
+#     print(a)
+#     await ws.accept()
+#     try:
+#         while True:
+#             data = await ws.receive_text()
+#             print(data)
+#     except:
+#         await ws.close()
 
 
 # def get(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
