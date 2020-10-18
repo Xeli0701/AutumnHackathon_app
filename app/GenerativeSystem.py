@@ -10,7 +10,7 @@ class GenerativeSystem:
         parser = ArgumentParser()
         opts.config_opts(parser)
         opts.translate_opts(parser)
-        self.opt = parser.parse_args(args = ["-model","../models/dlg_model_step_150000.pt","-src","None","-replace_unk","--beam_size","10","--min_length","7","--block_ngram_repeat","2"])
+        self.opt = parser.parse_args(args = ["-model","../models/model.pt","-src","None","-replace_unk","--beam_size","10","--min_length","7","--block_ngram_repeat","2"])
         ArgumentParser.validate_translate_opts(self.opt)
         self.translator = build_translator(self.opt, report_score=True)
 

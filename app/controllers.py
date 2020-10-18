@@ -14,7 +14,7 @@ import re
 pattern = re.compile(r'\w{4,20}') 
 pattern_mail = re.compile(r'^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$')  # Email
 
-from GenerativeSystem import *
+from generativeSystem import *
 
 
 app = FastAPI(
