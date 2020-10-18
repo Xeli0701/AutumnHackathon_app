@@ -33,7 +33,10 @@ jinja_env = templates.env
 def index(request: Request):
     return templates.TemplateResponse('index.html',{'request': request})
 
-def chat(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
+messages = []
+bot = GenerativeSystem()
+
+async def chat(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
     # Authに投げる
     username = auth(credentials)
 
@@ -44,10 +47,27 @@ def chat(request: Request, credentials: HTTPBasicCredentials = Depends(security)
     # 今日の日付と来週の日付
     today = datetime.datetime.now()
 
-    return templates.TemplateResponse('chat.html',
-                                    {'request': request, 
-                                    'user': user}
-    )
+    if request.method == 'GET':
+        return templates.TemplateResponse('chatbot.html',
+                                        {'request': request, 
+                                        'user': user,
+                                        'messages':messages}
+        )
+    if request.method == 'POST':
+        
+        data = await request.form()
+        human_to = data.get('messageText')
+        
+        #返すメッセージ表
+        messages.insert(0,username + ":" + human_to)
+        bot_rep = bot.reply(human_to)
+        print("Bot reply to " + username + ":" + "[" + human_to + "]" + " to " + "[" + bot_rep + "]")
+        messages.insert(0,"TwitterBot: @" + username + " " + bot_rep)
+        return templates.TemplateResponse('chatbot.html',
+                                        {'request': request, 
+                                        'user': user,
+                                        'messages':messages}
+        )
 
 async def register(request: Request):
     if request.method == 'GET':
@@ -103,7 +123,7 @@ async def bot_reply(sendMessage,request:Request, credentials: HTTPBasicCredentia
     #messages.append("test")
     bot_rep = bot.reply(sendMessage)
     #data.messageText
-    print("Bot reply to" + username: bot_rep)
+    print("Bot reply to" + username + ":" + bot_rep)
     return bot_rep
 
 

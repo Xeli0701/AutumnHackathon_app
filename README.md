@@ -1,8 +1,8 @@
 # 説明
-FastApiを使ったプロプロエタリツイッター。
+FastApiを使ったプロプライエタリツイッター。
 
 # ディレクトリ構造
-model、sqlite3などのデータは.gitignoreしてます。
+model・sqlite3などのデータは.gitignoreしてます。
 (modelはあとで上げるかも)
 ```
 AutumnHackathon_app
@@ -75,5 +75,5 @@ or
 - create_table.pyでsampleuser(username:user password:123456)を作成
 - ユーザデータはdb.sqlite3(app内部)に存在
 - apiドキュメントはurlの後ろに「/docs」を記入で確認可能
-- generativeSystem.pyはopenNMTを使った対話システム　models内部のもの（テスト時点では150000Step学習のもの）
-- modelの作成は学習した
+- generativeSystem.pyはopenNMTを使った対話システム　models内部のものを使う（テスト時点では150000Step学習のもの）
+- フルではないけど一応レスポンシブ対応
