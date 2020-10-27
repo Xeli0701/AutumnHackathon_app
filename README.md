@@ -1,5 +1,7 @@
 # 説明
-FastApiを使ったプロプライエタリツイッター。
+FastApiを使ったプロプライエタリツイッター。現在はデプロイ出来ていないので簡易的なチャットアプリとして再度公開予定。
+
+資料 https://docs.google.com/presentation/d/1Dtot2Nong31WyX7ZsPV4EsNJ0YXV9sKzGaHF7Ful4w4/edit#slide=id.g9d349908c0_2_123
 
 # ディレクトリ構造
 model・sqlite3などのデータは.gitignoreしてます。
